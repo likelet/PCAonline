@@ -8,7 +8,6 @@ dashboardPage(
     #                 min = 0, max = 50, value = 3, step = 0.1
     #     ),
     sidebarMenu(
-      menuItem("Introducction", tabName = "introduction"),
       menuItem("Input Data", tabName = "datainput",icon = icon("table")),
       menuItem("PCA Result", tabName = "result",icon = icon("dashboard")),
       menuItem("2D plot", tabName = "2dplot",icon = icon("dashboard")),
@@ -18,21 +17,7 @@ dashboardPage(
   ),
   dashboardBody(
     tabItems(
-      tabItem("introduction", 
-              
-              p("This application was designed for plot back to back bar plot with a dataframe of two value columns"),
-              br(),
-              br(),
-              strong("This application was created by "),
-              tags$a(href="mailto:zhaoqi3@mail2.sysu.edu.cn",strong("Qi Zhao")),
-              strong(' from '),
-              tags$a(href="http://gps.biocuckoo.org/",strong("Ren Lab")),
-              strong(" in "),
-              tags$a(href="http://www.sysu.edu.cn/2012/en/index.htm",strong("SYSU")),
-              strong('. Please let us know if you find bugs or have new feature request.This application uses the'),
-              tags$a(href="http://www.rstudio.com/shiny/",strong("shiny package from RStudio."))
-      ),
-      
+       
       tabItem("datainput",
               fluidRow(
                 box(
@@ -56,8 +41,7 @@ dashboardPage(
                                    'Single Quote'="'"),
                                  '')
                   ),
-                  selectInput('pagination', 'Choose Pagination',c('two_button', 'full_numbers')),
-                  img(src="CUCKOO.jpg", height = "200", width = "200")
+                  selectInput('pagination', 'Choose Pagination',c('two_button', 'full_numbers'))
                   
                 ),
                 box(
@@ -176,7 +160,7 @@ dashboardPage(
                 box(
                   width = 8, status = "success",
                   title = "2D plot",
-                  plotOutput("plotPCAtwoD",width="auto",height=600)
+                  plotOutput("plotPCAtwoD",width=800,height=600)
                 ),
                 box(
                   width = 4, status = "success",
@@ -204,7 +188,7 @@ dashboardPage(
                 box(
                   width = 8, status = "success",
                   title = "3D plot",
-                  plotOutput("plotPCAthreeDtext")
+                  plotOutput("plotPCAthreeDtext",width=800,height="100%")
                 ),
                 box(
                   width = 4, status = "success",

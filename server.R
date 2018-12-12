@@ -8,6 +8,7 @@ library(scatterplot3d)
 library(DT)
 library(plotly)
 library("RColorBrewer")
+library(ggrepel)
 
 factor2numeric<-function(x){
   x[,1]<-as.factor(x[,1])
@@ -107,19 +108,25 @@ plotPCA2D<-reactive({
   pca <-PCA(a[,2:ncol(a)], scale.unit=T, graph=F)
   PC1 <- pca$ind$coord[,1]
   PC2 <- pca$ind$coord[,2]
+  var.pc1<-round(pca$eig[1,2],digits = 1)
+  var.pc2<-round(pca$eig[2,2],digits=1)
+  xlabel<-paste("PC1(",var.pc1,"%)",sep="")
+  ylabel<-paste("PC2(",var.pc2,"%)",sep="")
+  
   plotdata <- data.frame(group=a[,1],PC1,PC2) 
   plotdata$group <- factor(plotdata$group)
   plot <- ggplot(plotdata, aes(PC1, PC2)) + 
-    geom_point(aes(colour = group,shape = group),size = input$pointSize)  
+    geom_point(aes(colour = group,shape = group),size = input$pointSize)+xlab(xlabel)+ylab(ylabel)
     
   
   if(input$showtext==TRUE){
-    plot=plot+geom_text(aes(label=rownames(plotdata)), size=5, hjust=0.5, vjust=-0.5)
+    # plot=plot+geom_text(aes(label=rownames(plotdata)), size=5, hjust=0.5, vjust=-0.5)
+    plot=plot+geom_text_repel(aes(PC1, PC2, label=rownames(plotdata)),size=5)
   }
   
   plot=plot+theme(panel.border = element_rect(linetype = "dashed")) + 
     theme_bw() + 
-    theme(legend.text = element_text(colour="blue", size = 16, face = "bold")) + 
+    theme(legend.text = element_text(colour="blue", size = 16, face ="bold")) + 
     theme(legend.title = element_text(colour="black", size=16, face="bold"))
   return(plot)
 })
@@ -216,7 +223,7 @@ a<-datasetInput()
               colory, fill=colorz)
      })
 
-},width="auto",height="auto")
+},width=800,height=800)
 
 
 #print 3D plot 
